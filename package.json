@@ -1,5 +1,5 @@
 {
-    "name": "client-side",
+    "name": "near-to-you-api",
     "version": "0.0.0",
     "private": true,
     "dependencies": {
