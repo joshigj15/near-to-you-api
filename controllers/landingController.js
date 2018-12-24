@@ -9,11 +9,11 @@ router.post("",(req, res, next) => {
         const customerEnquiry = new CustomerEnquiry({
             CustomerName: req.body.CustomerName,
             CustomerEmail: req.body.CustomerEmail,
-            CustomerContactNo: +req.body.CustomerContactNo,
+            CustomerContactNo: req.body.CustomerContactNo,
             EventType: req.body.EventType,
             BusinessCategory: req.body.BusinessCategory,
             DateOfEvent: req.body.DateOfEvent,
-            NoOfGuest: req.body.NoOfGuest,
+            NoOfGuest: +req.body.NoOfGuest,
             City: req.body.City
         });
             customerEnquiry.save().then(result => {

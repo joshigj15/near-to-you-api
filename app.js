@@ -22,7 +22,7 @@ const app = express();
 //     console.log('Failed to connect databace '+ JSON.stringify(err));
 // });
 
-mongoose.connect('mongodb+srv://joshigj15:K3GvPgTPer02lih7@cluster0-gunao.mongodb.net/NearToYou?retryWrites=true',{ useNewUrlParser: true })
+mongoose.connect('mongodb+srv://joshigj15:p9LbCi9MFkMgmZxX@cluster0-gunao.mongodb.net/test?retryWrites=true',{ useNewUrlParser: true })
 .then(()=>{
     console.log('MongoDb connection succeeded...');
 })

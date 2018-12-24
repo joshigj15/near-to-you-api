@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const CustomerEnquiry = mongoose.Schema({
+const CustomerEnquirySchema = mongoose.Schema({
     CustomerName: {type: String},
     CustomerEmail: {type: String},
-    CustomerContactNo: {type: Number},
+    CustomerContactNo: {type: String},
     EventType: {type: String, required:true},
     BusinessCategory: {type: String, required:true},
     DateOfEvent: {type: String, required:true},
-    NoOfGuest: {type: String, required:true},
+    NoOfGuest: {type: Number, required:true},
     City: {type: [String], required:true}
 }
 // {
@@ -15,4 +15,4 @@ const CustomerEnquiry = mongoose.Schema({
 // }
 );
 
-module.exports = mongoose.model('CustomerEnquiry',CustomerEnquiry);
+module.exports = mongoose.model('CustomerEnquiry',CustomerEnquirySchema);
