@@ -1,11 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const CustomerEnquiry = require("../models/customerEnquiry");
 
-const CustomerEnquiry = require("../models/CustomerEnquiry");
-const Vendor =require('../models/vendor');
+const Vendor = require('../models/vendor');
 
 
-router.post("",(req, res, next) => {
+exports.serchVendors = (req, res, next) => {
         const customerEnquiry = new CustomerEnquiry({
             CustomerName: req.body.CustomerName,
             CustomerEmail: req.body.CustomerEmail,
@@ -40,6 +38,4 @@ router.post("",(req, res, next) => {
                     Results:err
                 });
             });
-});
-
-module.exports = router; 
+};

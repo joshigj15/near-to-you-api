@@ -1,10 +1,6 @@
-const express = require('express');
-const router = express.Router();
-
 const VendorEnquiry = require("../models/vendorEnquiry");
 
-
-router.put("",(req, res, next) => {
+exports.saveCustomerLead = (req, res, next) => {
         const vendorEnquiry = new VendorEnquiry({
             CustomerName: req.body.CustomerName,
             CustomerEmail: req.body.CustomerEmail,
@@ -26,6 +22,4 @@ router.put("",(req, res, next) => {
                     Results:err
                 });
             });
-});
-
-module.exports = router; 
+};

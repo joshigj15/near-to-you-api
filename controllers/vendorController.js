@@ -1,6 +1,6 @@
 const express = require('express');
 const multer =require("multer");
-
+ 
 // const app = express();
 const router = express.Router();
 
@@ -37,7 +37,7 @@ var upload = multer({storage:storage});
 
 
 ///////////////////create vendor/////////////
-router.post("",checkAuth,upload.single("image"),(req, res, next)=>{
+exports.createVendor = (req, res, next)=>{
     const url = req.protocol + "://" +req.get("host");
     const vendor = new Vendor({
         BusinessName: req.body.BusinessName,
@@ -73,11 +73,11 @@ router.post("",checkAuth,upload.single("image"),(req, res, next)=>{
             });
         }
     });
-});
+};
 
 /////////////////////////////update vendor/////
 
-router.put("/:id",checkAuth, upload.single("image"),(req, res, next) => {
+exports.updateVendor = (req, res, next) => {
     // if(!ObjectId.isValid(req.params.id)){
     //     return res.Status(400).json({
     //         Status: false,
@@ -124,10 +124,10 @@ router.put("/:id",checkAuth, upload.single("image"),(req, res, next) => {
                 });
             });
     // }
-});
+};
 
 /////////////////////////fetch Vendors list////////////////
-router.get("",(req, res, next)=>{
+exports.getVendorList = (req, res, next)=>{
     //// + because we got data from query is type string and if we add + then javascript automatically convert then=m into number type
     const pageSize = +req.query.pageSize;
     const currentPage = +req.query.page;
@@ -160,10 +160,10 @@ router.get("",(req, res, next)=>{
             Results:null
         })
     });
-});
+};
 
 /////////////////////////find particular vendor/////
-router.get("/:url", (req, res, next) => {
+exports.getVendorDataFromUrl = (req, res, next) => {
     // if(!ObjectId.isValid(req.params.id)){
     //     return res.Status(400).json({
     //         Status: false,
@@ -190,11 +190,11 @@ router.get("/:url", (req, res, next) => {
             }
         });
     // }
-});
+};
 
 
 ////////////////////////find vendor from Id/////
-router.get("/vendor/:vendorId", (req, res, next) => {
+exports.getVendorDataFromId = (req, res, next) => {
     // if(!ObjectId.isValid(req.params.id)){
     //     return res.Status(400).json({
     //         Status: false,
@@ -221,10 +221,10 @@ router.get("/vendor/:vendorId", (req, res, next) => {
             }
         });
     // }
-});
+};
 
 ///////////////delete vendor////////////
-router.delete("/:vendorId",checkAuth,(req, res, next)=>{
+exports.deleteVendor = (req, res, next)=>{
     // if(!ObjectId.isValid(req.params.id)){
     //     return res.Status(400).json({
     //         Status: false,
@@ -256,7 +256,4 @@ router.delete("/:vendorId",checkAuth,(req, res, next)=>{
             });
         });
     // }
-});
-
-
-module.exports = router;
+};

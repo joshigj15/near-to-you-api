@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 // const cors = require('cors');
 const mongoose = require('mongoose');
 
-const vendorRoutes = require("./controllers/vendorController");
-const userRoutes = require("./controllers/userController");
-const vendorEnquiry = require("./controllers/enquiryController");
-const topPicksRoutes = require("./controllers/topPicksController");
-const blogRoutes = require("./controllers/blogController");
-const landingRoutes = require("./controllers/landingController");
+const vendorRoutes = require("./routes/vendorRoutes");
+const userRoutes = require("./routes/userRoutes");
+const vendorEnquiry = require("./routes/vendorRoutes");
+const topPicksRoutes = require("./routes/topPickRoutes");
+const blogRoutes = require("./routes/blogRoutes");
+const landingRoutes = require("./routes/landingRoutes");
 
 // const Vendor = require('./models/vendor');
 const app = express();
@@ -22,20 +22,25 @@ const app = express();
 //     console.log('Failed to connect databace '+ JSON.stringify(err));
 // });
 
-mongoose.connect('mongodb+srv://joshigj15:p9LbCi9MFkMgmZxX@cluster0-gunao.mongodb.net/test?retryWrites=true',{ useNewUrlParser: true })
-.then(()=>{
-    console.log('MongoDb connection succeeded...');
-})
-.catch((err)=>{
-    console.log('Failed to connect database...'+JSON.stringify(err));
-});
+//p9LbCi9MFkMgmZxX
+mongoose
+    .connect(
+        "mongodb+srv://joshigj15:p9LbCi9MFkMgmZxX"+ 
+        "@cluster0-gunao.mongodb.net/near-to-you"
+    )
+    .then(()=>{
+        console.log('MongoDb connection succeeded...');
+    })
+    .catch((err)=>{
+        console.log('Failed to connect database...'+JSON.stringify(err));
+    });
 
 
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use("/images", express.static(path.join("backend/images")));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/images", express.static(path.join("images")));
 
 // app.use(cors({ origin: 'Server started at port: 3000' }));
 
@@ -147,9 +152,5 @@ app.use("/api/topPicksRoutes",topPicksRoutes);
 app.use("/api/blog",blogRoutes);
 app.use("/api/landing",landingRoutes);
 
-//////////2nd middleware/////////////
-app.use((req,res,next)=>{
-    res.send('Hello from express');
-});
 
 module.exports = app;

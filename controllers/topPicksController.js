@@ -1,43 +1,9 @@
-const express = require('express'); 
-const multer =require("multer");
-
-const router = express.Router();
-
 const Vendor =require('../models/vendor');
-const checkAuth = require("../middleware/check-auth");
+
 const TopPick = require("../models/topPicks");
 
-const MIME_TYPE_MAP = {
-    'image/png':'png',
-    'image/jpeg':'jpg',
-    'image/jpg':'jpg'
-};
- 
-
-const storage = multer.diskStorage({
-    destination: (req, file, callback) =>{
-        const isValid = MIME_TYPE_MAP[file.mimetype];
-        let error = new Error("Invalid mime type");
-        if(isValid) {
-            error = null;
-        }
-        callback(error, 'backend/images');
-        // backend/images is the relative url from server.js file
-    },
-    filename: (req, file, callback)=>{
-        const name = file.originalname
-                    .toLowerCase()
-                    .split(' ')
-                    .join('-');
-        const extension = MIME_TYPE_MAP[file.mimetype];
-        callback(null, name +'-' + Date.now() + '.' + extension);
-    }
-});
-var upload = multer({storage:storage});
-
- 
 /////////////////////////fetch Vendors list////////////////
-router.get("",checkAuth,(req, res, next)=>{
+exports.getVendorList = (req, res, next)=>{
     const City = req.query.City;
     const BusinessCategory = req.query.BusinessCategory;
     const vendorQuery = Vendor.find({ BusinessCategory:BusinessCategory, City: City, IsDeleted:false });
@@ -66,11 +32,10 @@ router.get("",checkAuth,(req, res, next)=>{
             Results:null
         })
     });
-});
-
+};
 
 ////////////////////banner uploading//////////
-router.post("/banner",checkAuth,upload.single("image"),(req, res, next)=>{
+exports.ImageUpload = (req, res, next)=>{
     const url = req.protocol + "://" +req.get("host");
     const BannerUrl = url +"/images/" + req.file.filename;
     res.status(200).json({
@@ -79,9 +44,10 @@ router.post("/banner",checkAuth,upload.single("image"),(req, res, next)=>{
         message:"data successfully submitted",
         Results:BannerUrl
     });
-});
- 
-router.post("/Pick",checkAuth,(req, res, next)=>{
+};
+
+///////////////////create topPick///////////
+exports.createTopPick = (req, res, next)=>{
 const topPick = new TopPick({
         PreFix: req.body.PreFix,
         BusinessCategory: req.body.BusinessCategory,
@@ -115,9 +81,10 @@ const topPick = new TopPick({
             });
         }
     });
-});
+};
 
-router.get("/toPicks",(req, res, next)=>{
+///////////////////get TopPickList//////////
+exports.getTopPickList = (req, res, next)=>{
 
     const topPickQuery = TopPick.find();
     let fetchedTopPick;
@@ -145,9 +112,10 @@ router.get("/toPicks",(req, res, next)=>{
             Results:null
         })
     });
-});
- 
-router.get("/:PageUrl", (req, res, next) => {
+};
+
+////////////////get TopPick Data////////////////
+exports.getTopPickData = (req, res, next) => {
     TopPick.findOne({PageUrl:req.params.PageUrl}).then(topPick => {
             if (topPick) {
                 res.status(200).json({
@@ -165,5 +133,4 @@ router.get("/:PageUrl", (req, res, next) => {
                 });
             }
         });
-});
-module.exports = router;
+};

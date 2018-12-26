@@ -1,10 +1,7 @@
-const express = require('express'); 
-const router = express.Router();
-
 const Blog = require("../models/blog");
-const checkAuth = require("../middleware/check-auth");
- 
-router.post("",checkAuth,(req, res, next)=>{
+
+
+exports.saveBlog = (req, res, next)=>{
 const blog = new Blog({
         Title:req.body.Title,
         PageUrl:req.body.PageUrl,
@@ -26,7 +23,8 @@ const blog = new Blog({
                     ...docs}
             });
         }
-        else {
+        else 
+        {
             res.status(200).json({
                 Status: false,
                 MessageId: 4,
@@ -36,9 +34,9 @@ const blog = new Blog({
             });
         }
     });
-});
+};
 
-router.get("",(req, res, next)=>{
+exports.getBlogList = (req, res, next) => {
 
     const blogsQuery = Blog.find();
     let fetchedBlogs;
@@ -66,9 +64,9 @@ router.get("",(req, res, next)=>{
             Results:null
         })
     });
-});
+};
  
-router.get("/:PageUrl", (req, res, next) => {
+exports.getBlogData =(req, res, next) => {
     Blog.findOne({PageUrl:req.params.PageUrl}).then(blog => {
             if (blog) {
                 res.status(200).json({
@@ -86,6 +84,4 @@ router.get("/:PageUrl", (req, res, next) => {
                 });
             }
         });
-});
-
-module.exports = router;
+};
